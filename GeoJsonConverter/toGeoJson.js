@@ -81,7 +81,7 @@ source.forEach(rawProvince => {
             "id": maxProvinceId,
             "geometry": {
                 "type": "Polygon",
-                "coordinates": []
+                "coordinates": [[]]
             },
             "properties": {
                 "name": "",
@@ -107,14 +107,14 @@ source.forEach(rawProvince => {
             });
             
             //compress coordinates using Ramer–Douglas–Peucker
-            points = points.slice(0, points.length - 1);
-            let eps = 0.01;
-            let number_of_points = 200;
-            while (points.length > number_of_points) {
-                points = rdp(points, eps);
-                eps += 0.0001;
-            }
-            points.push(points[0]);
+            // points = points.slice(0, points.length - 1);
+            // let eps = 0.3;
+            // let number_of_points = 50;
+            // while (points.length > number_of_points) {
+            //     points = rdp(points, eps);
+            //     eps += 0.001;
+            // }
+            // points.push(points[0]);
 
             //   for (let i= 0; i < points.length; i+=2) {
             //     let point = [];
@@ -122,7 +122,7 @@ source.forEach(rawProvince => {
             //     point.push(points[i+1]);
             //     provice.geometry.coordinates.push(point);
             //   }
-            provice.geometry.coordinates = points;
+            provice.geometry.coordinates = [points];
         }
         // console.log(provice);
         provinces.features.push(provice);
