@@ -80,7 +80,7 @@ source.forEach(rawProvince => {
             "type": "Feature",
             "id": maxProvinceId,
             "geometry": {
-                "type": "Polygon",
+                "type": "MultiPolygon",
                 "coordinates": [[]]
             },
             "properties": {
@@ -100,10 +100,12 @@ source.forEach(rawProvince => {
         provice.properties.center = rawProvince.center;
         let polyline = rawProvince.polyline;
         if (polyline) {
-            let points = polyline.split(";").map(function (strPoint) {
-                return strPoint.split(",").map(function (part) {
-                    return Number(part);
-                }).filter(x => !!(x));
+            let points = polyline.split("|").map(function (strLine){
+                return [strLine.split(";").map(function (strPoint) {
+                    return strPoint.split(",").map(function (part) {
+                        return Number(part);
+                    }).filter(x => !!(x));
+                })];
             });
             
             //compress coordinates using Ramer–Douglas–Peucker
@@ -122,7 +124,7 @@ source.forEach(rawProvince => {
             //     point.push(points[i+1]);
             //     provice.geometry.coordinates.push(point);
             //   }
-            provice.geometry.coordinates = [points];
+            provice.geometry.coordinates = points;
         }
         // console.log(provice);
         provinces.features.push(provice);
@@ -177,7 +179,7 @@ source.forEach(rawProvince => {
 });
 
 let data = JSON.stringify(provinces);
-fs.writeFileSync(path.join(__dirname, 'target/provinces-reduced-coordinates.json'), data);
+fs.writeFileSync(path.join(__dirname, 'target/provinces.json'), data);
 let citiesData = JSON.stringify(cities);
 fs.writeFileSync(path.join(__dirname, 'target/cities.json'), citiesData);
 let treeData = JSON.stringify(tree);
