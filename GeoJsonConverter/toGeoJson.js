@@ -1,7 +1,7 @@
 'use strict';
 
 const fs = require('fs');
-const path = require('path')
+const path = require('path');
 
 let rawdata = fs.readFileSync(path.join(__dirname, 'source/geoinfo-all-extensions.json'));
 let source = JSON.parse(rawdata);
@@ -15,7 +15,7 @@ function dist(a, b, p) {
     let ab_dot_bp = ab[0] * bp[0] + ab[1] * bp[1];
     let ab_dot_ap = ab[0] * ap[0] + ab[1] * ap[1];
 
-    let distance = 0
+    let distance = 0;
 
     //if bp is in the same direction as ab, p is closest to b
     if (ab_dot_bp > 0) {
